@@ -6,7 +6,7 @@
 
 ## Why this use case
 
-**The pain it solves.** CQ makes the boldest positioning claim on its homepage ("the only platform covering all 8 stages, while alternatives only cover 2–3") and then defends it with literally nothing — no named competitor, no comparison page, no "vs." content. See [`pain-points.md`](pain-points.md) **Gap 4: No competitive defense despite an aggressive positioning claim.** This is the gap where a marketing team most obviously needs ongoing intelligence and most expensively gets blindsided.
+**The pain it solves.** CQ makes the boldest positioning claim on its homepage ("the only platform covering all 8 stages, while alternatives only cover 2–3") and then defends it with literally nothing — no named competitor, no comparison page, no "vs." content. See [`pain-points.md`](pain-points.md) **Gap 3: No competitive defense despite an aggressive positioning claim.** This is the gap where a marketing team most obviously needs ongoing intelligence and most expensively gets blindsided.
 
 **Why AI specifically (vs. manual or simpler automation).**
 
@@ -22,16 +22,16 @@
 
 ## The three workflows in the final write-up
 
-Per the brief, the submission presents three workflows and builds one. The chosen three form a coherent marketing-function story: **sense → produce → convert.**
+Per the brief, the submission presents three workflows and builds one. The chosen three form a coherent marketing-function story: **sense → produce → capture.**
 
-1. **(Built)** Competitive Intelligence Brief — marketing's sensing layer.
-2. **(Designed)** Founder-Voice Content Engine — listens to emerging-GP conversations (LinkedIn, Reddit, niche Substacks) and generates content briefs + drafts in CQ's founder voice. Closes Gap 2 (anonymous bulk content) and Gap 3 (voice inconsistency). Producer layer.
-3. **(Designed)** Hyper-Personalized Landing Hero — edge-function AI rewrites the homepage hero per visitor segment (PE GP, VC GP, HF, secondaries). Closes Gap 5 (zero top-of-funnel personalization). Conversion layer.
+1. **(Built)** Competitive Intelligence Brief — marketing's **sensing** layer. Weekly automated competitor scan, diff detection, classified by change type, synthesized into a one-page brief with a suggested CQ response.
+2. **(Designed)** Founder-Voice Content Engine — **producer** layer. Listens to emerging-GP conversations (LinkedIn, Reddit, niche Substacks), clusters pain themes, and generates content briefs + drafts in CQ's founder voice. Closes Gap 2 (anonymous bulk content).
+3. **(Designed)** AI-Edited Weekly Digest — **capture** layer. Turns CQ's `/insights` library into a weekly email digest that compounds content investment into a permanent audience asset. 3-step AI pipeline: (1) scrape/filter new articles from CQ's own CMS by editorial fit, (2) cluster into 2–4 themes for the issue, (3) draft per-article summaries + takeaways + editor's intro + 3 subject-line variants, all voice-matched to CQ's founder tone. Human reviews before send — no autosend, no per-reader personalization at this stage. Closes Gap 5 (no audience capture).
 
 ## Why NOT the others (as the built demo)
 
-- **Founder-Voice Content Engine** — fixes a real pain (Gap 2/3), but the demo is harder to validate quickly: the assessor would need to read drafts and judge voice-fit, which is subjective. Better designed than built within 72 hours.
-- **Hyper-Personalized Landing Hero** — clear visual demo (toggle URL params, see hero change), but requires deployment infra (Vercel / Cloudflare) and bumps against CQ's actual site (can't ship to a property I don't own). A mock-up exists in design but the *running* version would be fake. Competitive Intel runs on real data without any deployment.
+- **Founder-Voice Content Engine** — fixes a real pain (Gap 2), but the demo is harder to validate quickly: the assessor would need to read drafts and judge voice-fit, which is subjective. Also requires scraping LinkedIn/Reddit at meaningful scale, which raises platform-ToS complexity for a 72-hour build. Better designed than built within the time budget.
+- **AI-Edited Weekly Digest** — fixes Gap 5 cleanly, but a meaningful demo needs either a full newsletter-platform integration (Beehiiv/ConvertKit) or a real subscriber base to A/B-test subject lines against. Achievable but the *running* version would consume more 72-hour budget for less defensibility than Competitive Intel (which runs on live competitor pages with no third-party platform dependency). Better designed than built.
 
 ## Success criteria for the demo
 
