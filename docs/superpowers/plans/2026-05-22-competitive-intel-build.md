@@ -183,38 +183,68 @@ git commit -m "scaffold(3-build): package skeleton + dependencies"
 # Competitor surfaces to monitor.
 # The pipeline fetches each, diffs against the last snapshot, and includes
 # meaningful changes in the weekly brief.
+#
+# Each competitor has TWO tiers of surfaces:
+#   Tier 1 — slow-changing  (homepage / pricing / product / positioning)
+#   Tier 2 — high-changing  (blog / resources / news / case studies)
+# Tier 2 surfaces use surface_type "blog" generically — the AI reads the
+# actual content and classifies the diff appropriately.
 
 competitors:
   - name: Affinity
     surfaces:
+      # Tier 1 — slow-changing
       - url: https://www.affinity.co/
         type: homepage
       - url: https://www.affinity.co/pricing
         type: pricing
       - url: https://www.affinity.co/use-cases/venture-capital
         type: positioning
+      # Tier 2 — high-changing
+      - url: https://www.affinity.co/resources
+        type: blog
+      - url: https://www.affinity.co/customers
+        type: blog
 
   - name: Juniper Square
     surfaces:
+      # Tier 1
       - url: https://www.junipersquare.com/
         type: homepage
       - url: https://www.junipersquare.com/product/fundraising
         type: product
+      # Tier 2
+      - url: https://www.junipersquare.com/resources
+        type: blog
+      - url: https://www.junipersquare.com/case-studies
+        type: blog
 
   - name: DealCloud
     surfaces:
+      # Tier 1
       - url: https://dealcloud.com/
         type: homepage
       - url: https://dealcloud.com/solutions/private-equity/
         type: positioning
+      # Tier 2
+      - url: https://dealcloud.com/news/
+        type: blog
+      - url: https://dealcloud.com/resources/
+        type: blog
 
   - name: Foundersuite
     surfaces:
+      # Tier 1
       - url: https://foundersuite.com/
         type: homepage
       - url: https://foundersuite.com/pricing/
         type: pricing
+      # Tier 2
+      - url: https://foundersuite.com/blog/
+        type: blog
 ```
+
+> **Task 6 verification gate:** during fetch implementation, any Tier 2 URL that returns 404 or extracts <100 chars (likely JS-rendered) gets dropped from the watchlist. The remaining ~14-16 URLs proceed. Dropping a URL is a 1-line edit to `watchlist.yml` — no code change.
 
 - [ ] **Step 2: Write `3-build/config/cq-context.md`**
 
@@ -308,8 +338,10 @@ Significance heuristics:
 - Pricing changes on a `pricing` surface → at least 4
 - Headline changes on a `homepage` → at least 4
 - New product line / integration → 5
-- Blog topic shift → 2–3
+- New blog post / case study / news entry on a `blog` surface → 3 by default; bump to 4 if topic is strategically relevant (LP outreach, AI in fundraising, alts software comparison, ICP-specific content)
+- Topic shift in their content strategy across multiple posts → 4
 - Trivial rewording → 1
+- Cookie banner, date rotation, autogen IDs → noise (drop)
 
 Return ONLY a JSON array, no prose, no markdown fences. Example shape:
 

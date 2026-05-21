@@ -74,8 +74,19 @@ This workflow makes weekly competitor watching a 5-minute review of a pre-writte
 ## 4. What the workflow IS (scope IN)
 
 ```
-   ✓ Watches 9 URLs across 4 competitors:
+   ✓ Watches ~16 URLs across 4 competitors:
        Affinity, Juniper Square, DealCloud, Foundersuite
+
+     Each competitor has TWO tiers of surfaces watched:
+
+       Tier 1 — Slow-changing (positioning lens):
+         homepage / pricing / product / positioning
+         → rare diffs, high stakes when they move
+
+       Tier 2 — High-changing (activity lens):
+         blog / resources / news / case-studies / changelog
+         → steady weekly diffs, reveal topic priorities,
+           ICP shifts, customer wins, feature ships
 
    ✓ Fetches → extracts clean text → diffs vs last snapshot
 
