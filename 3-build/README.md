@@ -26,7 +26,7 @@
    └────────┬───────┘
             ▼  changed paragraphs
    ┌────────────────┐
-   │   4. CLASSIFY  │   Gemini Flash: tag + score 1-5
+   │   4. CLASSIFY  │   LLM (via OpenRouter): tag + score 1-5
    │     (AI #1)    │
    └────────┬───────┘
             ▼  only score ≥3 survive
@@ -44,7 +44,7 @@
    └────────────────┘
 ```
 
-Cost per run: **$0** (Gemini Flash free tier). Runtime end-to-end: ~60–90s.
+Cost per run: **$0** (OpenRouter free-tier model). Runtime end-to-end: ~60–90s.
 
 ## Try it instantly
 
@@ -82,7 +82,7 @@ python -m src.main --dry-run
 
 | Layer              | Choice                       | Why                                          |
 |--------------------|------------------------------|----------------------------------------------|
-| AI                 | Google Gemini 2.5 Flash      | Free tier, fast, structured JSON output      |
+| AI                 | OpenRouter (free model)      | Region-agnostic free tier, OpenAI-compatible |
 | Fetch              | `playwright` (headless Chromium) | Renders JS + beats basic bot detection   |
 | Content extract    | `readability-lxml`           | Reliable on SSR'd marketing pages            |
 | Diff               | `difflib` (stdlib)           | Deterministic, no LLM tokens spent on noise  |
@@ -102,8 +102,8 @@ Each choice rejects an alternative for a stated reason — see [`docs/superpower
 │   ├── main.py         CLI entry point
 │   ├── fetch.py        async HTTP + content extraction
 │   ├── diff.py         paragraph-level diff
-│   ├── classify.py     AI #1 (Gemini)
-│   ├── synthesize.py   AI #2 (Gemini)
+│   ├── classify.py     AI #1 (OpenRouter)
+│   ├── synthesize.py   AI #2 (OpenRouter)
 │   ├── render.py       Markdown → HTML
 │   ├── publish.py      write to docs/ for GitHub Pages
 │   ├── storage.py      snapshot save/load

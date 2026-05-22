@@ -91,7 +91,7 @@ def run(
             print("  (no diffs — first run after seeding produces empty briefs)")
         return None
 
-    print(f"[3/5] Classifying {len(chunks)} chunks via Gemini...", flush=True)
+    print(f"[3/5] Classifying {len(chunks)} chunks via OpenRouter...", flush=True)
     significant = classify(chunks)
     print(f"      {len(significant)} significant after filtering", flush=True)
 
