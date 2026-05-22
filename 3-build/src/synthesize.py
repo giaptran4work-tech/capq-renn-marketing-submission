@@ -7,9 +7,7 @@ from datetime import date
 from pathlib import Path
 from typing import Iterable
 
-from google.genai import types
-
-from .llm import GEMINI_MODEL, get_client
+from .llm import OPENROUTER_MODEL, get_client
 from .models import SignificantChange
 
 PROMPT_PATH = Path(__file__).resolve().parent.parent / "prompts" / "synthesize.md"
@@ -43,13 +41,13 @@ def synthesize(changes: Iterable[SignificantChange], run_date: date) -> str:
     )
 
     client = get_client()
-    resp = client.models.generate_content(
-        model=GEMINI_MODEL,
-        contents=user_payload,
-        config=types.GenerateContentConfig(
-            system_instruction=system_prompt,
-            max_output_tokens=2048,
-            temperature=0.3,
-        ),
+    resp = client.chat.completions.create(
+        model=OPENROUTER_MODEL,
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_payload},
+        ],
+        max_tokens=8192,
+        temperature=0.3,
     )
-    return resp.text or ""
+    return resp.choices[0].message.content or ""

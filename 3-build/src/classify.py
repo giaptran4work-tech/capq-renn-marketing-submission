@@ -6,10 +6,9 @@ import json
 from pathlib import Path
 from typing import Iterable
 
-from google.genai import types
 from pydantic import ValidationError, TypeAdapter
 
-from .llm import GEMINI_MODEL, get_client
+from .llm import OPENROUTER_MODEL, get_client
 from .models import Classification, DiffChunk, SignificantChange
 
 PROMPT_PATH = Path(__file__).resolve().parent.parent / "prompts" / "classify.md"
@@ -56,18 +55,20 @@ def classify(chunks: Iterable[DiffChunk]) -> list[SignificantChange]:
     user_payload = _build_user_payload(chunks)
 
     client = get_client()
-    resp = client.models.generate_content(
-        model=GEMINI_MODEL,
-        contents=user_payload,
-        config=types.GenerateContentConfig(
-            system_instruction=system_prompt,
-            response_mime_type="application/json",
-            max_output_tokens=2048,
-            temperature=0.1,
-        ),
+    # NOTE: no response_format here. json_object mode expects a top-level JSON
+    # object, but the classify prompt asks for a JSON *array*. The prompt + the
+    # tolerant _parse_response (strips code fences) handle this reliably.
+    resp = client.chat.completions.create(
+        model=OPENROUTER_MODEL,
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_payload},
+        ],
+        max_tokens=8192,
+        temperature=0.1,
     )
 
-    raw = resp.text or "[]"
+    raw = resp.choices[0].message.content or "[]"
     classifications = _parse_response(raw)
 
     by_id = {c.id: c for c in classifications}
