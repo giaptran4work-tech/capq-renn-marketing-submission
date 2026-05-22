@@ -23,8 +23,11 @@ def _md_to_html(text: str) -> str:
 
 def render_brief_html(brief_md: str, run_date: date, github_handle: str) -> str:
     """Convert a Markdown brief to a full styled HTML page."""
+    # Imported lazily to avoid a circular import (publish imports render).
+    from .publish import _extract_title
+
     body_html = _md_to_html(brief_md)
-    title = brief_md.splitlines()[0].lstrip("#").strip() if brief_md else "Brief"
+    title = _extract_title(brief_md)
     template = _env.get_template("brief.html")
     return template.render(
         title=title,

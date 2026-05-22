@@ -91,6 +91,8 @@ async def _fetch_one(browser: Browser, surface: Surface) -> FetchResult:
             )
         return FetchResult(surface=surface, content_md=text, fetched_at=now)
     except PlaywrightTimeoutError as e:
+        # PlaywrightTimeoutError is a subclass of PlaywrightError; handle it
+        # first so timeouts get a clearer label.
         return FetchResult(
             surface=surface,
             fetched_at=now,
@@ -98,13 +100,9 @@ async def _fetch_one(browser: Browser, surface: Surface) -> FetchResult:
             error=f"TimeoutError: {e}".splitlines()[0],
         )
     except PlaywrightError as e:
-        return FetchResult(
-            surface=surface,
-            fetched_at=now,
-            status="fetch_failed",
-            error=f"{type(e).__name__}: {e}".splitlines()[0],
-        )
-    except Exception as e:  # never crash the run on a single surface
+        # Genuine fetch/navigation failures (DNS, connection refused, nav
+        # errors, etc.). Anything outside this — an AttributeError, a typo,
+        # any programming bug — is NOT caught here and surfaces loudly.
         return FetchResult(
             surface=surface,
             fetched_at=now,

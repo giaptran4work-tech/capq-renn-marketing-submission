@@ -13,7 +13,6 @@ from __future__ import annotations
 import argparse
 import asyncio
 import os
-import sys
 from datetime import date
 from pathlib import Path
 
@@ -23,7 +22,7 @@ from dotenv import load_dotenv
 from .classify import classify
 from .diff import compute_diff
 from .fetch import fetch_all
-from .models import DiffChunk, Surface
+from .models import DiffChunk, FetchResult, Surface
 from .publish import publish_brief
 from .storage import load_snapshot, save_snapshot
 from .synthesize import synthesize
@@ -41,7 +40,7 @@ def load_watchlist() -> list[Surface]:
     return surfaces
 
 
-def collect_diffs(fetched, save: bool):
+def collect_diffs(fetched: list[FetchResult], save: bool):
     chunks: list[DiffChunk] = []
     failures: list[tuple[str, str]] = []
     for i, result in enumerate(fetched):

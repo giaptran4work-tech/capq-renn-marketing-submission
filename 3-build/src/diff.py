@@ -9,6 +9,9 @@ from .models import DiffChunk, Surface
 
 MAX_CHUNK_CHARS = 1500
 MIN_BLOCK_CHARS = 15
+# On the first run (no baseline) every block looks "added"; cap how many we
+# emit so a brand-new page doesn't flood the classifier.
+MAX_FIRST_RUN_CHUNKS = 5
 
 
 def _split_blocks(text: str) -> list[str]:
@@ -40,7 +43,7 @@ def compute_diff(
                 kind="added",
                 text=_truncate(b),
             )
-            for i, b in enumerate(new_blocks[:5])
+            for i, b in enumerate(new_blocks[:MAX_FIRST_RUN_CHUNKS])
         ]
 
     old_blocks = _split_blocks(old)

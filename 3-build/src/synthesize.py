@@ -3,17 +3,15 @@
 from __future__ import annotations
 
 import json
-import os
 from datetime import date
 from pathlib import Path
 from typing import Iterable
 
-from google import genai
 from google.genai import types
 
+from .llm import GEMINI_MODEL, get_client
 from .models import SignificantChange
 
-MODEL = "gemini-2.5-flash"
 PROMPT_PATH = Path(__file__).resolve().parent.parent / "prompts" / "synthesize.md"
 CONTEXT_PATH = Path(__file__).resolve().parent.parent / "config" / "cq-context.md"
 
@@ -36,13 +34,6 @@ def _serialize_changes(changes: Iterable[SignificantChange]) -> str:
 
 def synthesize(changes: Iterable[SignificantChange], run_date: date) -> str:
     """Produce the 1-page brief. Returns Markdown."""
-    api_key = os.environ.get("GOOGLE_API_KEY")
-    if not api_key:
-        raise RuntimeError(
-            "GOOGLE_API_KEY is not set. Copy .env.example to .env and add your key "
-            "from https://aistudio.google.com."
-        )
-
     system_prompt = PROMPT_PATH.read_text(encoding="utf-8")
     cq_context = CONTEXT_PATH.read_text(encoding="utf-8")
     user_payload = (
@@ -51,9 +42,9 @@ def synthesize(changes: Iterable[SignificantChange], run_date: date) -> str:
         f"## Significant changes (JSON)\n{_serialize_changes(changes)}\n"
     )
 
-    client = genai.Client(api_key=api_key)
+    client = get_client()
     resp = client.models.generate_content(
-        model=MODEL,
+        model=GEMINI_MODEL,
         contents=user_payload,
         config=types.GenerateContentConfig(
             system_instruction=system_prompt,

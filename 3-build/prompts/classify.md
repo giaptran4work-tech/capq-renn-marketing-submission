@@ -6,7 +6,7 @@ You will receive a JSON list of diff chunks. Each chunk has:
 - `url`: where the diff was found
 - `surface_type`: one of `homepage`, `pricing`, `product`, `positioning`, `blog`, `changelog`
 - `kind`: one of `added`, `removed`, `modified`
-- `text`: the changed text (truncated to ~400 words)
+- `text`: the changed text (truncated to ~1500 characters)
 
 For each chunk, return a classification object with:
 

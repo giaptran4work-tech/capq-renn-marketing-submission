@@ -3,17 +3,15 @@
 from __future__ import annotations
 
 import json
-import os
 from pathlib import Path
 from typing import Iterable
 
-from google import genai
 from google.genai import types
 from pydantic import ValidationError, TypeAdapter
 
+from .llm import GEMINI_MODEL, get_client
 from .models import Classification, DiffChunk, SignificantChange
 
-MODEL = "gemini-2.5-flash"
 PROMPT_PATH = Path(__file__).resolve().parent.parent / "prompts" / "classify.md"
 MIN_SIGNIFICANCE = 3
 DROP_TYPES = {"noise", "design_only"}
@@ -54,19 +52,12 @@ def classify(chunks: Iterable[DiffChunk]) -> list[SignificantChange]:
     if not chunks:
         return []
 
-    api_key = os.environ.get("GOOGLE_API_KEY")
-    if not api_key:
-        raise RuntimeError(
-            "GOOGLE_API_KEY is not set. Copy .env.example to .env and add your key "
-            "from https://aistudio.google.com."
-        )
-
     system_prompt = PROMPT_PATH.read_text(encoding="utf-8")
     user_payload = _build_user_payload(chunks)
 
-    client = genai.Client(api_key=api_key)
+    client = get_client()
     resp = client.models.generate_content(
-        model=MODEL,
+        model=GEMINI_MODEL,
         contents=user_payload,
         config=types.GenerateContentConfig(
             system_instruction=system_prompt,
