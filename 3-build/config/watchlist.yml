@@ -44,13 +44,13 @@ competitors:
       - url: https://dealcloud.com/resources/
         type: blog
 
-  - name: Foundersuite
+  - name: 4Degrees
     surfaces:
       # Tier 1
-      - url: https://foundersuite.com/
+      - url: https://www.4degrees.ai/
         type: homepage
-      - url: https://foundersuite.com/pricing/
+      - url: https://www.4degrees.ai/pricing
         type: pricing
       # Tier 2
-      - url: https://foundersuite.com/blog/
+      - url: https://www.4degrees.ai/blog
         type: blog
