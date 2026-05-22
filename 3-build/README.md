@@ -9,11 +9,12 @@
 
 ```
    ┌────────────────┐
-   │  watchlist.yml │   4 competitors, 9 URLs
+   │  watchlist.yml │   4 competitors, ~13 URLs
    └────────┬───────┘
             ▼
    ┌────────────────┐
-   │   1. FETCH     │   Pull all 9 pages at once  (httpx async)
+   │   1. FETCH     │   Pull all pages via a headless browser
+   │                │   (Playwright — beats bot detection)
    └────────┬───────┘
             ▼  raw HTML
    ┌────────────────┐
@@ -82,7 +83,7 @@ python -m src.main --dry-run
 | Layer              | Choice                       | Why                                          |
 |--------------------|------------------------------|----------------------------------------------|
 | AI                 | Google Gemini 2.5 Flash      | Free tier, fast, structured JSON output      |
-| HTTP fetch         | `httpx`                      | Async, fast, stdlib-shaped                   |
+| Fetch              | `playwright` (headless Chromium) | Renders JS + beats basic bot detection   |
 | Content extract    | `readability-lxml`           | Reliable on SSR'd marketing pages            |
 | Diff               | `difflib` (stdlib)           | Deterministic, no LLM tokens spent on noise  |
 | Render             | `python-markdown` + Jinja2   | Standard, well-documented                    |

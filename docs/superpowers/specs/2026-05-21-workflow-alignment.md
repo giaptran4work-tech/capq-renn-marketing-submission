@@ -74,8 +74,10 @@ This workflow makes weekly competitor watching a 5-minute review of a pre-writte
 ## 4. What the workflow IS (scope IN)
 
 ```
-   ✓ Watches ~16 URLs across 4 competitors:
-       Affinity, Juniper Square, DealCloud, Foundersuite
+   ✓ Watches ~13 URLs across 4 competitors:
+       Affinity, Juniper Square, DealCloud, 4Degrees
+       (Foundersuite was swapped out — its Cloudflare WAF
+        blocked even a headless browser)
 
      Each competitor has TWO tiers of surfaces watched:
 
@@ -151,7 +153,8 @@ This workflow makes weekly competitor watching a 5-minute review of a pre-writte
    ─────────────────────────────────────────────────────────
 
      ┌──────────────┐
-     │  1. FETCH    │   httpx async pull of 9 URLs
+     │  1. FETCH    │   Playwright headless browser pulls
+     │              │   ~13 URLs (beats basic bot detection)
      └──────┬───────┘
             ▼
      ┌──────────────┐
@@ -233,7 +236,7 @@ This workflow makes weekly competitor watching a 5-minute review of a pre-writte
      COST    $0
 
    NOT AI  (deterministic plumbing)
-     ▸ Fetch & extract                           httpx + readability
+     ▸ Fetch & extract                           Playwright + readability
      ▸ Diff                                      difflib (stdlib)
      ▸ Markdown → HTML                           markdown lib + jinja
      ▸ Publish to GitHub Pages                   git + gh-pages branch
@@ -247,8 +250,9 @@ This workflow makes weekly competitor watching a 5-minute review of a pre-writte
    ──────────────────   ────────────────────────     ──────────────────────
    AI (both calls)      Gemini 2.5 Flash             Free tier, fast,
                                                      structured output
-   Fetch                httpx + readability-lxml     Free, async, SSR
-                                                     pages work fine
+   Fetch                Playwright (headless         Free, renders JS,
+                        Chromium) + readability      beats basic bot
+                                                     detection / WAF
    Diff                 Python difflib (stdlib)      Free, deterministic
    Schema validation    Pydantic                     Catches malformed AI
    Markdown → HTML      python-markdown + jinja2     Free, well-known
