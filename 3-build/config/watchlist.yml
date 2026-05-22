@@ -16,8 +16,6 @@ competitors:
         type: homepage
       - url: https://www.affinity.co/pricing
         type: pricing
-      - url: https://www.affinity.co/use-cases/venture-capital
-        type: positioning
       # Tier 2 — high-changing
       - url: https://www.affinity.co/resources
         type: blog
@@ -29,12 +27,8 @@ competitors:
       # Tier 1
       - url: https://www.junipersquare.com/
         type: homepage
-      - url: https://www.junipersquare.com/product/fundraising
-        type: product
       # Tier 2
       - url: https://www.junipersquare.com/resources
-        type: blog
-      - url: https://www.junipersquare.com/case-studies
         type: blog
 
   - name: DealCloud
