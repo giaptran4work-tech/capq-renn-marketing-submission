@@ -30,3 +30,7 @@ venv/
 
 # Claude Code local
 .claude/settings.local.json
+
+# Task 3 prototype is its own published repo:
+# https://github.com/giaptran4work-tech/capq-lead-discovery
+4-growth-prototype/
